@@ -22,7 +22,8 @@ export default function Home() {
         HRIS Dashboard
       </Typography>
       <Typography variant="body1" sx={{ mt: 2 }}>
-        A centralized platform for managing your organization's human resources
+        A centralized platform for managing your organization&apos;s human
+        resources
       </Typography>
       <Button
         variant="contained"

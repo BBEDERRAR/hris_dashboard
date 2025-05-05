@@ -9,14 +9,17 @@ interface DashboardData {
   allDepartments: Department[];
 }
 
+interface GraphQLResponse<T> {
+  data: T;
+  errors?: Array<{ message: string }>;
+}
+
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/';
 
-
-
 // Server-side fetch function for GraphQL
-async function fetchGraphQL<T = any>(
+async function fetchGraphQL<T>(
   query: string,
-  variables?: Record<string, any>
+  variables?: Record<string, unknown>
 ): Promise<T> {
   try {
     const response = await fetch(apiUrl, {
@@ -31,7 +34,7 @@ async function fetchGraphQL<T = any>(
       cache: 'no-store'
     });
 
-    const result = await response.json();
+    const result = await response.json() as GraphQLResponse<T>;
 
     if (result.errors) {
       throw new Error(result.errors[0].message);

@@ -3,7 +3,7 @@
  * @param data Array of objects to convert to CSV
  * @param filename Name of the downloaded file
  */
-export function exportToCSV(data: any[] | null, filename: string): void {
+export function exportToCSV(data: Record<string, any>[] | null, filename: string): void {
   if (!data || !data.length) {
     console.warn('No data to export');
     return;
@@ -26,7 +26,7 @@ export function exportToCSV(data: any[] | null, filename: string): void {
   };
   
   // Process nested objects for better CSV output
-  const processRowData = (row: any): Record<string, string> => {
+  const processRowData = (row: Record<string, any>): Record<string, string> => {
     const result: Record<string, string> = {};
     
     // Handle each field
@@ -46,10 +46,13 @@ export function exportToCSV(data: any[] | null, filename: string): void {
         if (key.toLowerCase().includes('date') && value) {
           // Try to format as a date if it looks like one
           try {
-            const date = new Date(value);
-            if (!isNaN(date.getTime())) {
-              result[key] = date.toLocaleDateString();
-              return;
+            // Ensure value is a valid date input type
+            if (typeof value === 'string' || typeof value === 'number' || value instanceof Date) {
+              const date = new Date(value);
+              if (!isNaN(date.getTime())) {
+                result[key] = date.toLocaleDateString();
+                return;
+              }
             }
           } catch (e) {
             // Not a valid date, continue with normal processing
