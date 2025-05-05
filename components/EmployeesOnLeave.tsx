@@ -16,7 +16,6 @@ import {
   Box,
   SelectChangeEvent,
   TableContainer,
-  CircularProgress,
 } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import type { Department, Leave } from "@/graphql/type";
@@ -35,11 +34,7 @@ export function EmployeesOnLeave({
   const [department, setDepartment] = useState<string>("all");
 
   // Only fetch department data when not "all"
-  const {
-    data: departmentData,
-    loading,
-    error,
-  } = useEmployeesOnLeaveByDepartment(department);
+  const { data: departmentData } = useEmployeesOnLeaveByDepartment(department);
 
   // Use the departmentData if available, otherwise use the original leaves
   const displayedLeaves =
@@ -57,31 +52,6 @@ export function EmployeesOnLeave({
   const handleExport = () => {
     exportToCSV(displayedLeaves, "employees-on-leave.csv");
   };
-
-  if (loading) {
-    return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        height="100%"
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-  if (error) {
-    return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        height="100%"
-      >
-        <Typography variant="h6">Error: {error.message}</Typography>
-      </Box>
-    );
-  }
 
   return (
     <>
