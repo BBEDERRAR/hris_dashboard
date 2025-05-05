@@ -1,36 +1,142 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HRIS Dashboard Challenge
+
+A modern HR Information System dashboard built with Next.js, React, Material UI, and GraphQL.
+
+## Features
+
+- **Next.js App Router Features**: Utilizing error.tsx and loading.tsx for robust error handling and loading states
+- **Server-Side Fetching**: Initial data is fetched server-side for improved performance and SEO optimization
+- **Employees on Leave Today**: View and filter employees currently on leave
+- **Birthdays This Week**: Display employees celebrating birthdays in the current week
+- **Team Overview**: Show aggregated statistics about employees and departments
+- **Export Functionality**: Export employee data to CSV format
+- **Department Filtering**: Filter employees by department using GraphQL queries
+
+## Tech Stack
+
+- **Frontend**:
+
+  - Next.js 15 (App Router)
+  - React 19
+  - Material UI 7
+  - TypeScript
+
+- **API**:
+
+  - GraphQL (using a hosted JSON GraphQL mock server)[https://hris-json-graphql-mock-server.vercel.app/](link)
+  - Apollo Client for state management and data fetching
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+ (recommended: 20+)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository
+
+```bash
+git clone <repository-url>
+cd hris_dashboard
+```
+
+2. Install dependencies
+
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Start the development server
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000/dashboard](http://localhost:3000/dashboard) in your browser
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Mock GraphQL Server
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The application fetches data from a hosted JSON GraphQL mock server at:
 
-## Learn More
+[https://hris-json-graphql-mock-server.vercel.app/](https://hris-json-graphql-mock-server.vercel.app/)
 
-To learn more about Next.js, take a look at the following resources:
+This server provides the following GraphQL endpoints:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `allEmployeesOnLeaveTodays`
+- `allBirthdaysThisWeeks`
+- `TeamOverview`
+- `allDepartments`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The mock server is based on json-graphql-server and provides realistic HR data for development and demonstration purposes.
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+hris_dashboard/
+├── app/                 # Next.js App Router
+│   ├── api/             # API routes
+│   ├── dashboard/       # Dashboard page
+│   │   ├── error.tsx    # Error handling for dashboard
+│   │   ├── loading.tsx  # Loading state for dashboard
+│   │   └── page.tsx     # Dashboard page component
+│   ├── providers.tsx    # Apollo Provider wrapper
+│   ├── layout.tsx       # Root layout
+│   └── page.tsx         # Root page
+├── components/          # React components
+│   ├── BirthdaysThisWeek.tsx
+│   ├── EmployeesOnLeave.tsx
+│   └── TeamOverview.tsx
+├── graphql/             # GraphQL related files
+│   ├── client.ts        # Apollo Client setup
+│   ├── hooks.ts         # GraphQL query hooks
+│   └── type.ts          # TypeScript interfaces
+├── public/              # Static assets
+└── utils/               # Utility functions
+    ├── exportUtils.ts   # CSV export functionality
+    └── theme.ts         # Material UI theme customization
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## GraphQL Implementation
+
+### Apollo Client Setup
+
+The application uses Apollo Client for GraphQL data fetching with the following features:
+
+- Client-side state management
+- Error handling with error link
+- Custom hook implementations for each query
+- Type-safe GraphQL operations
+- Hybrid fetching strategy (server + client)
+
+### GraphQL Queries
+
+Key queries implemented:
+
+- `allEmployeesOnLeaveTodays`: Fetches employees currently on leave
+- `allEmployeesOnLeaveTodays(filter: { department: $department })`: Filters by department
+- `allBirthdaysThisWeeks`: Retrieves employees with birthdays in the current week
+- `TeamOverview`: Gets team statistics
+
+### Filter Implementation
+
+The department filter demonstrates:
+
+- Skip patterns to avoid unnecessary queries
+- Client-side fallback filtering when appropriate
+- Loading states during filtering operations
+
+## Key Components
+
+- **EmployeesOnLeave**: Displays and filters employees on leave
+- **BirthdaysThisWeek**: Shows employee birthdays in the current week
+- **TeamOverview**: Provides statistical overview of the team structure
+
+## License
+
+[MIT License](LICENSE)

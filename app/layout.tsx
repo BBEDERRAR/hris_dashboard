@@ -4,6 +4,7 @@ import theme from "@/utils/theme";
 import { CssBaseline } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { ThemeProvider as MUIThemeProvider } from "@mui/material/styles";
+import { ApolloProviderWrapper } from "./providers";
 
 export const metadata: Metadata = {
   title: "HRIS Dashboard",
@@ -22,7 +23,7 @@ export default function RootLayout({
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <MUIThemeProvider theme={theme}>
             <CssBaseline />
-            {children}
+            <ApolloProviderWrapper>{children}</ApolloProviderWrapper>
           </MUIThemeProvider>
         </AppRouterCacheProvider>
       </body>
